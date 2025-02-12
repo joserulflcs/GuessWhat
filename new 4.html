@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Secret Page</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      background-color: #f0f0f0;
+      padding: 50px;
+    }
+
+    .hidden-content {
+      display: none;
+      font-size: 24px;
+      color: #fff;
+      background-color: #ff6699;
+      padding: 20px;
+      margin-top: 20px;
+    }
+
+    h1 {
+      color: #333;
+    }
+
+    input[type="password"] {
+      padding: 10px;
+      margin: 10px;
+      font-size: 16px;
+    }
+
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: #ff6699;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #ff3366;
+    }
+  </style>
+</head>
+<body>
+  <h1>Welcome! Please enter the secret password:</h1>
+  <input type="password" id="password" placeholder="Enter password">
+  <button onclick="checkPassword()">Submit</button>
+
+  <div id="content" class="hidden-content">
+    <h2>🎉 Surprise! 🎉</h2>
+    <p>Now that you've unlocked the secret, will you be my Valentine? ❤️</p>
+  </div>
+
+  <script>
+    function checkPassword() {
+      const password = document.getElementById('password').value;
+      const correctPassword = 'loveme123'; // This is the secret password
+      if (password === correctPassword) {
+        document.getElementById('content').style.display = 'block';
+      } else {
+        alert('Oops, wrong password! Try again.');
+      }
+    }
+  </script>
+</body>
+</html>
