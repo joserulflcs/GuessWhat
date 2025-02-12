@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Secret Game</title>
+  <style>
+    /* Your existing CSS styles */
+  </style>
+</head>
+<body>
+  <h1>Welcome to the Secret Game</h1>
+  <div id="startButtonDiv">
+    <button class="button" onclick="startGame()">Start Game</button>
+  </div>
+  <div class="game-container" id="gameContainer">
+    <div class="round" id="round1">
+      <div class="song" id="song1">Loading...</div>
+      <div class="song" id="song2">Loading...</div>
+    </div>
+    <button class="button" onclick="nextRound()">Next Round</button>
+  </div>
+  <div id="content" class="hidden-content">
+    <h2>🎉 Surprise! 🎉</h2>
+    <p>Now that you've unlocked the secret, will you be my Valentine? ❤️</p>
+  </div>
+  <div class="question-container" id="questionContainer">
+    <h2>Do you know what all winning songs' first letters spell?</h2>
+    <input type="text" id="answer" placeholder="Enter answer here">
+    <button class="button" onclick="checkAnswer()">Submit Answer</button>
+  </div>
+  <script>
+    const correctSongs = [
+      'Virginia Beach - Drake', 'APT. - ROSE', 'luther - Kendrick Lamar', 
+      'Espresso - Sabrina Carpenter', 'Nights - Frank Ocean', 'The Worst - Jhene Aiko', 
+      'I Hate U - SZA', 'N 2 Deep - Drake', 'Exchange - Bryson Tiller'
+    ];
+    const correctLetters = ['V', 'A', 'L', 'E', 'N', 'T', 'I', 'N', 'E']; // Letters of "VALENTINE"
+    let currentRound = 0;
+    let userSelections = [];
+
+    function startGame() {
+      document.getElementById('startButtonDiv').style.display = 'none';
+      document.getElementById('gameContainer').style.display = 'block';
+      loadRound();
+    }
+
+    function loadRound() {
+      const roundSongs = getRoundSongs(currentRound);
+      document.getElementById(`song1`).textContent = roundSongs[0];
+      document.getElementById(`song2`).textContent = roundSongs[1];
+
+      // Add click event listeners to the songs
+      document.getElementById(`song1`).onclick = () => handleSongClick(roundSongs[0]);
+      document.getElementById(`song2`).onclick = () => handleSongClick(roundSongs[1]);
+    }
+
+    function getRoundSongs(round) {
+      const winner = correctSongs[round];
+      const randomIndex = Math.floor(Math.random() * 2);
+      return randomIndex === 0 ? [winner, 'Some random song'] : ['Some random song', winner];
+    }
+
+    function handleSongClick(song) {
+      if (song === correctSongs[currentRound]) {
+        userSelections.push(song);
+        currentRound++;
+        if (currentRound < correctSongs.length) {
+          loadRound();
+        } else {
+          document.getElementById('gameContainer').style.display = 'none';
+          document.getElementById('questionContainer').style.display = 'block';
+        }
+      } else {
+        alert('Wrong choice! Restarting the game...');
+        location.reload();
+      }
+    }
+
+    function checkAnswer() {
+      const answer = document.getElementById('answer').value.toUpperCase();
+      if (answer === correctLetters.join('')) {
+        document.getElementById('questionContainer').style.display = 'none';
+        document.getElementById('content').style.display = 'block';
+      } else {
+        alert('Wrong! Please try again.');
+      }
+    }
+  </script>
+</body>
+</html>
