@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Secret Valentine Game</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="welcome">
+    <h1>Welcome to the Valentine's Game!</h1>
+    <button onclick="startGame()">Start Game</button>
+  </div>
+
+  <div id="game" style="display: none;">
+    <h2>Round 1</h2>
+    <div id="songQuestion"></div>
+    <button onclick="selectSong('A')">Song A</button>
+    <button onclick="selectSong('B')">Song B</button>
+  </div>
+
+  <div id="endGame" style="display: none;">
+    <h2>Do you know what all the winning songs' first letters spell?</h2>
+    <button onclick="checkAnswer()">Yes, I know!</button>
+    <input type="text" id="answer" placeholder="Enter the word here">
+  </div>
+
+  <div id="content" class="hidden-content" style="display: none;">
+    <h2>🎉 Surprise! 🎉</h2>
+    <p>Now that you've unlocked the secret, will you be my Valentine? ❤️</p>
+  </div>
+
+  <script>
+    let currentRound = 1;
+    let answerLetters = []; // To store the letters from correct answers
+    let correctAnswers = ['V', 'A', 'L', 'E', 'N', 'T', 'I', 'N', 'E']; // Letters of the word "Valentine"
+
+    let rounds = [
+      { songA: "Virginia Beach - Drake", songB: "Codeine Crazy - Future", winner: 'A' },
+      { songA: "APT. - ROSE", songB: "California Gurls - Katy Perry", winner: 'A' },
+      { songA: "Luther - Kendrick Lamar", songB: "Static - Steve Lacy", winner: 'A' },
+      { songA: "Espresso - Sabrina Carpenter", songB: "Vampire - Olivia Rodrigo", winner: 'A' },
+      { songA: "Nights - Frank Ocean", songB: "Power Trip - J Cole", winner: 'A' },
+      { songA: "The Worst - Jhene Aiko", songB: "How Many Drinks? - Miguel", winner: 'A' },
+      { songA: "I Hate U - SZA", songB: "ALL MINE - Brent Faiyaz", winner: 'A' },
+      { songA: "N 2 Deep - Drake", songB: "4x4 - Travis Scott", winner: 'A' },
+      { songA: "Exchange - Bryson Tiller", songB: "No Chill - PARTYNEXTDOOR", winner: 'A' }
+    ];
+
+    function startGame() {
+      document.getElementById('welcome').style.display = 'none';
+      document.getElementById('game').style.display = 'block';
+      showRound(currentRound);
+    }
+
+    function showRound(round) {
+      let songA = rounds[round - 1].songA;
+      let songB = rounds[round - 1].songB;
+
+      document.getElementById('songQuestion').innerHTML = `Which song has more streams?<br>1) ${songA} <br>2) ${songB}`;
+    }
+
+    function selectSong(selected) {
+      if (selected === 'A') {
+        // Correct answer for this round
+        answerLetters.push(correctAnswers[cu
