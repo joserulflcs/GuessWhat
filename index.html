@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Secret Game</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      background-color: #f0f0f0;
+      padding: 50px;
+    }
+    h1 {
+      color: #333;
+    }
+    .hidden-content {
+      display: none;
+      font-size: 24px;
+      color: #fff;
+      background-color: #ff6699;
+      padding: 20px;
+      margin-top: 20px;
+      font-weight: bold;
+    }
+    .button {
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: #ff6699;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+    .button:hover {
+      background-color: #ff3366;
+    }
+    .game-container {
+      display: none;
+      margin-top: 20px;
+    }
+    .round {
+      display: flex;
+      justify-content: space-between;
+      margin: 20px 0;
+      font-weight: bold;
+    }
+    .round .song {
+      padding: 10px;
+      font-size: 18px;
+      background-color: #ffffff;
+      color: #333;
+      cursor: pointer;
+      width: 45%;
+      margin: 0 5%;
+    }
+    .round .song:hover {
+      background-color: #ff3366;
+      color: white;
+    }
+    .question-container {
+      display: none;
+      margin-top: 30px;
+    }
+    #answer {
+      padding: 10px;
+      font-size: 18px;
+    }
+  </style>
+</head>
+<body>
+  <h1 id="pageTitle">Which Song Has More Streams?</h1>
+  <div id="startButtonDiv">
+    <button class="button" onclick="startGame()">Start Game</button>
+  </div>
+  <div class="game-container" id="gameContainer">
+    <div class="round" id="currentRound">
+      <div class="song" id="song1">Loading...</div>
+      <div class="song" id="song2">Loading...</div>
+    </div>
+  </div>
+  <div id="content" class="hidden-content">
+    <h2>🎉 Surprise! 🎉</h2>
+    <p>Now that you've unlocked the secret, will you be my Valentine? ❤️</p>
+  </div>
+  <div class="question-container" id="questionContainer">
+    <h2>Do you know what all winning songs' first letters spell?</h2>
+    <input type="text" id="answer" placeholder="Enter answer here">
+    <button class="button" onclick="checkAnswer()">Submit Answer</button>
+    <button class="button" style="background-color: #ff3366; margin-top: 10px;" onclick="restartGame()">No, Restart Game</button>
+  </div>
+  <script>
+    const correctSongs = [
+      'Virginia Beach - Drake', 'APT. - ROSE', 'luther - Kendrick Lamar', 
+      'Espresso - Sabrina Carpenter', 'Nights - Frank Ocean', 'The Worst - Jhene Aiko', 
+      'I Hate U - SZA', 'N 2 Deep - Drake', 'Exchange - Bryson Tiller'
+    ];
+    const losingSongs = [
+      'Codeine Crazy - Future', 'California Gurls - Katy Perry', 'Static - Steve Lacy',
+      'vampire - Olivia Rodrigo', 'Power Trip - J Cole', 'How Many Drinks? - Miguel',
+      'ALL MINE - Brent Faiyaz', '4x4 - Travis Scott', 'N o C h i l l - PARTYNEXTDOOR'
+    ];
+    const correctLetters = ['V', 'A', 'L', 'E', 'N', 'T', 'I', 'N', 'E']; // Letters of "VALENTINE"
+    let currentRound = 0;
+
+    function startGame() {
+      document.getElementById('startButtonDiv').style.display = 'none';
+      document.getElementById('gameContainer').style.display = 'block';
+      loadRound();
+    }
+
+    function loadRound() {
+      const roundSongs = getRoundSongs(currentRound);
+      document.getElementById(`song1`).textContent = roundSongs[0];
+      document.getElementById(`song2`).textContent = roundSongs[1];
+
+      // Add click event listeners to the songs
+      document.getElementById(`song1`).onclick = () => handleSongClick(roundSongs[0]);
+      document.getElementById(`song2`).onclick = () => handleSongClick(roundSongs[1]);
+    }
+
+    function getRoundSongs(round) {
+      const winner = correctSongs[round];
+      const loser = losingSongs[round];
+      const randomIndex = Math.floor(Math.random() * 2);
+      return randomIndex === 0 ? [winner, loser] : [loser, winner];
+    }
+
+    function handleSongClick(song) {
+      if (song === correctSongs[currentRound]) {
+        currentRound++;
+        if (currentRound < correctSongs.length) {
+          loadRound();
+        } else {
+          document.getElementById('gameContainer').style.display = 'none';
+          document.getElementById('questionContainer').style.display = 'block';
+          document.getElementById('pageTitle').style.display = 'none'; // Hide the title on the final page <button class="citation-flag" data-index="7">
+        }
+      } else {
+        alert('Wrong choice! Restarting the game...');
+        location.reload();
+      }
+    }
+
+    function checkAnswer() {
+      const answer = document.getElementById('answer').value.toUpperCase();
+      if (answer === correctLetters.join('')) {
+        document.getElementById('questionContainer').style.display = 'none';
+        document.getElementById('content').style.display = 'block';
+      } else {
+        alert('Wrong! Please try again.');
+      }
+    }
+
+    function restartGame() {
+      location.reload(); // Restart the game by reloading the page
+    }
+  </script>
+</body>
+</html>
